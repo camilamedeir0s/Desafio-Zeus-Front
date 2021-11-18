@@ -1,0 +1,37 @@
+.container{
+    width: 100%;
+    height: 100vh;
+    margin: 0 auto;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+    background-color: dimgray;
+}
+
+.container div.form{
+    width: 100%;
+    max-width: 350px;
+    margin-right: 30px;
+}
+
+.container div.form form{
+        margin-top: 100px;
+}
+
+.container div.table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
