@@ -11,8 +11,8 @@ function Home() {
     const [price, setPrice] = useState('');
 
     useEffect(() => {
-        loadPurchases();
-    });
+        loadPurchases().then();
+    }, []);
 
     async function handleRegister() {
         const data = {
@@ -24,7 +24,6 @@ function Home() {
         try {
             const response = await api.post('/create', data)
             alert('Cadastro realizado')
-            loadPurchases();
             
         } catch (error) {
             alert('Erro no cadastro. Tente novamente.')
@@ -37,10 +36,11 @@ function Home() {
         })
     }
 
-    async function updateInfo(){
-        await api.post('update')
+    // async function updatePurchases(id){
+    //     await api.post('update/id');
+    // }
 
-    }
+
 
     return (
         <div className="container">
@@ -81,21 +81,52 @@ function Home() {
                         <th> </th>
                     </tr>
                     {purchases.map ( (purchase) => 
-                        <tr>
+                        <tr key={purchase._id}>
                             <td>{ purchase.name }</td>
                             <td>{ purchase.quantity }</td>
                             <td>{ purchase.price }</td>
                             <td>{ purchase.date }</td>
                             <td>
-                            <a onClick={() => updateInfo(purchase._id)}>
+                            {/* <a onClick={() => updateInfo(purchase._id)}>
                                 <FiEdit size={16} color="#E02041" />
-                            </a>
+                            </a> */}
                         </td>
                         </tr>
                     )}
          
                 </table>
             </div>
+
+            <div className="monthYear">
+                <h1>Gasto mensal</h1>
+                <p>Selecione o mês e o ano para conferir o gasto mensal com ração</p>
+                <label for="date">Data</label>
+                <select name="month" id="month">
+                    <option value="0">Mês</option>
+                    <option value="1">Janeiro</option>
+                    <option value="2">Fevereiro</option>
+                    <option value="3">Março</option>
+                    <option value="4">Abril</option>
+                    <option value="5">Maio</option>
+                    <option value="6">Junho</option>
+                    <option value="7">Julho</option>
+                    <option value="8">Agosto</option>
+                    <option value="9">Setembro</option>
+                    <option value="10">Outubro</option>
+                    <option value="11">Novembro</option>
+                    <option value="12">Dezembro</option>
+                </select>
+
+                <select name="year" id="year">
+                    <option value="0">Ano</option>
+                    <option value="2021">2021</option>
+                    <option value="2022">2022</option>
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                </select>
+            </div>
+
+
         </div>
     );
 }
