@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FiDelete, FiEdit, FiTrash2 } from 'react-icons/fi';
+import { FiDelete, FiEdit, FiFilter, FiSearch, FiTrash2 } from 'react-icons/fi';
 
 import api from '../../services/api';
 import './styles.css';
@@ -7,8 +7,6 @@ import './styles.css';
 function Home() {
     const [purchases, setPurchases] = useState([]);
     const [visibility, setVisibility] = useState(false);
-    const [amountPrice, setAmountPrice] = useState('');
-    const [amountQuantity, setAmountQuantity] = useState('');
 
     const [name, setName] = useState('');
     const [quantity, setQuantity] = useState('');
@@ -19,6 +17,10 @@ function Home() {
     const [editPrice, setEditPrice] = useState('');
     const [editId, setEditId] = useState('');
 
+    const [amountPrice, setAmountPrice] = useState('0');
+    const [amountQuantity, setAmountQuantity] = useState('0');
+    const [chosenMonth, setChosenMonth] = useState('');
+    const [chosenYear, setChosenYear] = useState('');
 
 
     useEffect(() => {
@@ -47,19 +49,16 @@ function Home() {
         })
     }
 
-    // async function getAmount() {
-    //     try {
-    //         await api.get(`amount?month=${month}&year=${year}`, {}).then(response =>{
-    //             setAmountPrice(response.data.amountPrice);
-    //             setAmountQuantity(response.data.setAmountQuantity);
-    //         });
-
-    //         //TIRAR O MONTH E O YEAR DAS OPÇÕES EH NOIS UHU
-            
-    //     } catch (error) {
-    //         alert('Erro ao buscar os valores');
-    //     }   
-    // }
+    async function getAmount() {
+        try {
+            await api.get(`amountMonth?month=${chosenMonth}&year=${chosenYear}`, {}).then(response =>{
+                setAmountPrice(response.data.amountPrice);
+                setAmountQuantity(response.data.amountQuantity);
+            });            
+        } catch (error) {
+            alert('Erro ao buscar os valores');
+        }   
+    }
 
     async function updatePurchase(editId) {
         const data = {
@@ -199,33 +198,26 @@ function Home() {
             <div className="monthYear">
                 <h1>Gasto mensal</h1>
                 <p>Selecione o mês e o ano para conferir o gasto mensal com ração</p>
-                <label for="date">Data</label>
-                <select name="month" id="month">
-                    <option value="0">Mês</option>
-                    <option value="1">Janeiro</option>
-                    <option value="2">Fevereiro</option>
-                    <option value="3">Março</option>
-                    <option value="4">Abril</option>
-                    <option value="5">Maio</option>
-                    <option value="6">Junho</option>
-                    <option value="7">Julho</option>
-                    <option value="8">Agosto</option>
-                    <option value="9">Setembro</option>
-                    <option value="10">Outubro</option>
-                    <option value="11">Novembro</option>
-                    <option value="12">Dezembro</option>
-                </select>
-
-                <select name="year" id="year">
-                    <option value="0">Ano</option>
-                    <option value="2021">2021</option>
-                    <option value="2022">2022</option>
-                    <option value="2023">2023</option>
-                    <option value="2024">2024</option>
-                </select>
+                <input
+                    placeholder="month"
+                    value={chosenMonth}
+                    onChange={e => setChosenMonth(e.target.value)}
+                    type="number"
+                    min="0" max="12"
+                />
+                <input
+                    placeholder="year"
+                    value={chosenYear}
+                    onChange={e => setChosenYear(e.target.value)}
+                    type="number"
+                    min="2021"
+                />
+                <button onClick={() => getAmount()} type="button">
+                    <FiSearch size={16} color="#000000" />
+                </button>
+                <p>R${amountPrice}</p>
+                <p>{amountQuantity}kg</p>
             </div>
-
-
         </div>
     );
 }
