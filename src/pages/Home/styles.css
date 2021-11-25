@@ -2,24 +2,38 @@
     width: 100vw;
     height: 100vh;
     margin: 0 auto 0 auto;
-
     display: flex;
-
-    flex-direction: column;
     align-items: center;
     justify-content: space-around;
 }
 
 .container div.form{
+    height: 450px;
     width: 100%;
-    max-width: 350px;
+    max-width: 450px;
     margin-right: 30px;
+    background-color: #f8f8f8;
+    border-radius: 10px;
+    padding: 40px;
+}
+
+.container div.infocontainer{
+  background-color:#f8f8f8;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.container div.info{
+    overflow: scroll;
+    background-color:#f8f8f8;
+    max-height: 420px;
 }
 
 .container div.table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
   width: 100%;
+  margin-top: 10px;
 }
 
 td, th {
@@ -67,4 +81,30 @@ tr:nth-child(even) {
   border: 1px solid #dcdce6;
   border-radius: 8px;
   padding: 0 24px;
+}
+
+.monthYear{
+  background-color: #f8f8f8;
+  padding: 40px;
+  border-radius: 10px;
+  max-height: 450px;
+  align-items: center;
+  justify-content: center;
+}
+
+.purchaseContainer{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top:20px;
+}
+
+.purchaseValue{
+  background-color: pink;
+  height: 100px;
+  width: 150px;
+  border-radius: 5px;
+  justify-content: center;
+  display: flex;
+  align-items: center;
 }
