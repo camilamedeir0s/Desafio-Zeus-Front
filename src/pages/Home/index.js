@@ -106,132 +106,134 @@ function Home() {
     }
 
     return (
-        <div className="container">
-            <div className="form">
-                <form onSubmit={handleRegister}>
-                    <h1>Informações da compra</h1>
-                    <label for="name">Nome da ração:</label>
-                    <input
-                        placeholder="Ex: Ração do Zeus"
-                        value={name}
-                        onChange={e => setName(e.target.value)}
-                    />
-                    <label for="quantity">Quantidade de ração (kg):</label>
-                    <input
-                        placeholder="Ex: 2"
-                        value={quantity}
-                        onChange={e => setQuantity(e.target.value)}
-                        type="number"
-                    />
-                    <label for="price">Preço da compra (R$):</label>
-                    <input
-                        placeholder="Ex: 100"
-                        value={price}
-                        onChange={e => setPrice(e.target.value)}
-                        type="number"
-                    />
-                    <button className="button" type="submit">Salvar</button>
-                </form>
-            </div>
-
-
-            <div className="infocontainer">
-                <div className="info">
-                    <table>
-                        <tr>
-                            <th>Nome da ração</th>
-                            <th>Quantidade</th>
-                            <th>Preço</th>
-                            <th>Data</th>
-                            <th><FiEdit size={16} color="#000000" /></th>
-                            <th><FiTrash2 size={16} color="#000000" /> </th>
-                        </tr>
-                        {purchases.map((purchase) =>
-                            <tr key={purchase._id}>
-                                <td>{purchase.name}</td>
-                                <td>{purchase.quantity}</td>
-                                <td>{Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(purchase.price)}</td>
-                                <td>{(new Intl.DateTimeFormat('pt-br')).format(new Date(purchase.date))}</td>
-
-                                <td>
-                                    <button onClick={() => openEditor(purchase._id, purchase.name, purchase.quantity, purchase.price)} type="button">
-                                        <FiEdit size={16} color="6A5ACD" />
-                                    </button>
-                                </td>
-
-                                <td>
-                                    <button onClick={() => alertDelete(purchase._id)} type="button">
-                                        <FiTrash2 size={16} color="#FF0000" />
-                                    </button>
-                                </td>
-                            </tr>
-                        )}
-
-                    </table>
-                </div>
-
-            </div>
-
-
-            {visibility ? (
-                <div className="edit" >
-                    <div className="editPopUp">
-                        <h1>Edite as informações</h1>
+        <div className="all">
+            <div className="title"><p>Desafio</p><p>Zeus</p></div>
+            <div className="container">
+                <div className="form">
+                    <form onSubmit={handleRegister}>
+                        <h1>Informações da compra</h1>
                         <label for="name">Nome da ração:</label>
                         <input
-                            placeholder="Nome"
-                            value={editName}
-                            onChange={e => setEditName(e.target.value)}
+                            placeholder="Ex: Ração do Zeus"
+                            value={name}
+                            onChange={e => setName(e.target.value)}
                         />
-                        <label for="quantity">Quantidade de ração:</label>
+                        <label for="quantity">Quantidade de ração (kg):</label>
                         <input
-                            placeholder="10kg"
-                            value={editQuantity}
-                            onChange={e => setEditQuantity(e.target.value)}
+                            placeholder="Ex: 2"
+                            value={quantity}
+                            onChange={e => setQuantity(e.target.value)}
+                            type="number"
                         />
-                        <label for="price">Preço da compra:</label>
+                        <label for="price">Preço da compra (R$):</label>
                         <input
-                            placeholder="R$"
-                            value={editPrice}
-                            onChange={e => setEditPrice(e.target.value)}
+                            placeholder="Ex: 100"
+                            value={price}
+                            onChange={e => setPrice(e.target.value)}
+                            type="number"
                         />
-                        <button onClick={() => updatePurchase(editId)} className="button">Salvar</button>
-                        <button onClick={() => closeEditor()} className="button">Cancelar</button>
+                        <button className="button" type="submit">Salvar</button>
+                    </form>
+                </div>
 
+
+                <div className="infocontainer">
+                    <div className="info">
+                        <table>
+                            <tr>
+                                <th>Nome da ração</th>
+                                <th>Quantidade</th>
+                                <th>Preço</th>
+                                <th>Data</th>
+                                <th><FiEdit size={16} color="#000000" /></th>
+                                <th><FiTrash2 size={16} color="#000000" /> </th>
+                            </tr>
+                            {purchases.map((purchase) =>
+                                <tr key={purchase._id}>
+                                    <td>{purchase.name}</td>
+                                    <td>{purchase.quantity}</td>
+                                    <td>{Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(purchase.price)}</td>
+                                    <td>{(new Intl.DateTimeFormat('pt-br')).format(new Date(purchase.date))}</td>
+
+                                    <td>
+                                        <button onClick={() => openEditor(purchase._id, purchase.name, purchase.quantity, purchase.price)} type="button">
+                                            <FiEdit size={16} color="6A5ACD" />
+                                        </button>
+                                    </td>
+
+                                    <td>
+                                        <button onClick={() => alertDelete(purchase._id)} type="button">
+                                            <FiTrash2 size={16} color="#FF0000" />
+                                        </button>
+                                    </td>
+                                </tr>
+                            )}
+
+                        </table>
                     </div>
 
                 </div>
-            ) : null}
 
-            <div className="monthYear">
-                <h1>Gasto mensal</h1>
-                <p>Selecione o mês e o ano para conferir o gasto mensal com ração</p>
-                <input
-                    placeholder="Ex: 5"
-                    value={chosenMonth}
-                    onChange={e => setChosenMonth(e.target.value)}
-                    type="number"
-                    min="0" max="12"
-                />
-                <input
-                    placeholder="Ex: 2021"
-                    value={chosenYear}
-                    onChange={e => setChosenYear(e.target.value)}
-                    type="number"
-                    min="2021"
-                />
 
-                <button onClick={() => getAmount()} type="button" className="button">
-                    Buscar
-                    <FiSearch size={16} color="#f8f8f8" />
-                </button>
+                {visibility ? (
+                    <div className="edit" >
+                        <div className="editPopUp">
+                            <h1>Edite as informações</h1>
+                            <label for="name">Nome da ração:</label>
+                            <input
+                                placeholder="Nome"
+                                value={editName}
+                                onChange={e => setEditName(e.target.value)}
+                            />
+                            <label for="quantity">Quantidade de ração:</label>
+                            <input
+                                placeholder="10kg"
+                                value={editQuantity}
+                                onChange={e => setEditQuantity(e.target.value)}
+                            />
+                            <label for="price">Preço da compra:</label>
+                            <input
+                                placeholder="R$"
+                                value={editPrice}
+                                onChange={e => setEditPrice(e.target.value)}
+                            />
+                            <button onClick={() => updatePurchase(editId)} className="button">Salvar</button>
+                            <button onClick={() => closeEditor()} className="button">Cancelar</button>
 
-                <div className="purchaseContainer">
-                    <div className="purchaseValue">
-                        <p>R${amountPrice}</p>
+                        </div>
+
                     </div>
-                    <div className="purchaseValue">
-                        <p>{amountQuantity}kg</p>
+                ) : null}
+
+                <div className="monthYear">
+                    <h1>Gasto mensal</h1>
+                    <p>Selecione o mês e o ano para conferir o gasto mensal com ração</p>
+                    <input
+                        placeholder="Ex: 5"
+                        value={chosenMonth}
+                        onChange={e => setChosenMonth(e.target.value)}
+                        type="number"
+                        min="0" max="12"
+                    />
+                    <input
+                        placeholder="Ex: 2021"
+                        value={chosenYear}
+                        onChange={e => setChosenYear(e.target.value)}
+                        type="number"
+                        min="2021"
+                    />
+
+                    <button onClick={() => getAmount()} type="button" className="button">
+                        Buscar
+                    </button>
+
+                    <div className="purchaseContainer">
+                        <div className="purchaseValue">
+                            <p>R${amountPrice}</p>
+                        </div>
+                        <div className="purchaseValue">
+                            <p>{amountQuantity}kg</p>
+                        </div>
                     </div>
                 </div>
             </div>
