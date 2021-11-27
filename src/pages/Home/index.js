@@ -27,7 +27,8 @@ function Home() {
         loadPurchases().then();
     }, []);
 
-    async function handleRegister() {
+    async function handleRegister(e) {
+        e.preventDefault();
         const data = {
             name,
             quantity,
@@ -36,17 +37,21 @@ function Home() {
 
         try {
             const response = await api.post('create', data)
-            alert('Cadastro realizado')
+            alert('Cadastro realizado');
+            loadPurchases();
+            setName('');
+            setQuantity('');
+            setPrice('');
 
         } catch (error) {
-            alert('Erro no cadastro. Tente novamente.')
+            alert('Erro no cadastro. Tente novamente.');
         }
     }
 
     async function loadPurchases() {
         await api.get('find', {}).then(response => {
             setPurchases(response.data);
-            getAmount()
+            getAmount();
         })
     }
 
@@ -69,21 +74,11 @@ function Home() {
         }
         try {
             await api.put(`update/${editId}`, data);
-            closeEditor()
-            loadPurchases()
-            alert('Cadastro atualizado')
+            closeEditor();
+            loadPurchases();
+            alert('Cadastro atualizado');
         } catch (error) {
-            alert('Erro na edição')
-        }
-    }
-
-    async function deletePurchase(id) {
-        try {
-            await api.delete(`delete/${id}`);
-            loadPurchases()
-
-        } catch (error) {
-            alert('Erro ao deletar, tente novamente.')
+            alert('Erro na edição');
         }
     }
 
@@ -93,16 +88,26 @@ function Home() {
         }
     }
 
+    async function deletePurchase(id) {
+        try {
+            await api.delete(`delete/${id}`);
+            loadPurchases();
+
+        } catch (error) {
+            alert('Erro ao deletar, tente novamente.');
+        }
+    }
+
     function openEditor(id, name, quantity, price) {
-        setVisibility(true)
-        setEditId(id)
-        setEditName(name)
-        setEditQuantity(quantity)
-        setEditPrice(price)
+        setVisibility(true);
+        setEditId(id);
+        setEditName(name);
+        setEditQuantity(quantity);
+        setEditPrice(price);
     }
 
     function closeEditor() {
-        setVisibility(false)
+        setVisibility(false);
     }
 
     return (
@@ -117,6 +122,7 @@ function Home() {
                             placeholder="Ex: Ração do Zeus"
                             value={name}
                             onChange={e => setName(e.target.value)}
+                            maxlength="30"
                         />
                         <label for="quantity">Quantidade de ração (kg):</label>
                         <input
@@ -124,6 +130,7 @@ function Home() {
                             value={quantity}
                             onChange={e => setQuantity(e.target.value)}
                             type="number"
+                            min="0" max="1000"
                         />
                         <label for="price">Preço da compra (R$):</label>
                         <input
@@ -131,6 +138,7 @@ function Home() {
                             value={price}
                             onChange={e => setPrice(e.target.value)}
                             type="number"
+                            min="0" max="10000000"
                         />
                         <button className="button" type="submit">Salvar</button>
                     </form>
